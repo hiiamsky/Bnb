@@ -12,7 +12,7 @@
 	$header=jQueryMobileHeader($headercontent, $headerdivotherstr);
 	
 	$jMcontent="";
-	$jMcontent.="<form name=\"LoginForm\" id=\"LoginForm\" method=\"post\" action=\"\">\n";
+	$jMcontent.="<form name=\"LoginForm\" id=\"LoginForm\" method=\"post\" action=\"ckLogin.php\">\n";
 	$jMcontent.= jQueryM_Text("BnbID","BnbID","民宿編號","","");
 	$jMcontent.= jQueryM_Text("LoginID","LoginID","使用者名稱","","");
 	$jMcontent.= jQueryM_PWText("LoginPW","LoginPW","使用者密碼","","");
