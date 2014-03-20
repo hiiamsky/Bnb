@@ -1,7 +1,7 @@
 <?php
 	include '../function/html.php';
 	$html=new html();
-	//設定Login.php用變數
+	
 	$titleStr="登入";
 	$JSLinkStr="<script src=\"../JS/Login/Login.js\"></script>\n";
 	$CSSStr="";
@@ -11,6 +11,7 @@
 	$headercontent="<h1>登入</h1>\n";
 	$headerdivotherstr=" date-theme=\"".$data_theme."\"";
 	$header=$html->jQueryMobileHeader($headercontent, $headerdivotherstr);
+	
 	
 	$jMcontent="";
 	$jMcontent.="<form name=\"LoginForm\" id=\"LoginForm\" method=\"post\" action=\"ckLogin.php\">\n";
