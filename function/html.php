@@ -17,13 +17,13 @@
 		$htmlHeadStr.=$JSStr."\n";	
 		$htmlHeadStr.="</head>\n";
 		$htmlHeadStr.="<body>\n";
-		echo $htmlHeadStr;
+		return  $htmlHeadStr;
 	}
 	function htmlEnd(){
 		$htmlEndStr="";
 		$htmlEndStr.="</body>\n";
 		$htmlEndStr.="</html>\n";
-		echo $htmlEndStr;
+		return  $htmlEndStr;
 	}
 	function jQueryM_Text($Nm,$Id,$ShowNm,$DefVal,$otherstr){
 		$jMhtmltextStr="";
@@ -31,7 +31,7 @@
 						"<label for=\"".$Nm."\">".$ShowNm."</label>".
 						"<input type='text' name=\"".$Nm."\" id=\"".$Id."\" value=\"".$DefVal."\"".$otherstr." />\n".
 						"</div>\n";
-		echo $jMhtmltextStr;					
+		return  $jMhtmltextStr;					
 	}
 	function jQueryM_PWText($Nm,$Id,$ShowNm,$DefVal,$otherstr){
 		$jMhtmlPWtextStr="";
@@ -39,7 +39,7 @@
 						"<label for=\"".$Nm."\">".$ShowNm."</label>".
 						"<input type='password' name=\"".$Nm."\" id=\"".$Id."\" value=\"".$DefVal."\"".$otherstr." />\n".
 						"</div>\n";
-		echo $jMhtmlPWtextStr;					
+		return  $jMhtmlPWtextStr;					
 	}
 	
 	function jQueryM_Button($Nm,$Id,$Type,$DefVal,$otherstr){
@@ -47,47 +47,39 @@
 		$jMhtmlButtonStr.="<div data-role=\"fieldcontain\">\n".						
 						"<button name=\"".$Nm."\" id=\"".$Id."\" type=\"".$Type."\"".$otherstr.">".$DefVal."</button>\n".
 						"</div>\n";
-		echo $jMhtmlButtonStr;					
+		return  $jMhtmlButtonStr;					
 	}
-	function jQueryMobilePage($pageID,$header,$content,$footer,$divotherstr){
+	function jQueryMobilePage($pageid,$header,$content,$footer,$pagedivotherstr){
 		$pageStr="";
-		$pageStr.= "<div data-role=\"page\"  id=\"".$pageID."\"".$divotherstr.">\n";
+		$pageStr.= "<div data-role=\"page\"  id=\"".$pageid."\"".$pagedivotherstr.">\n";
 		$pageStr.=$header;
 		$pageStr.=$content;
 		$pageStr.=$footer;
 		$pageStr.= "</div>\n";
 		echo $pageStr;
 	}
-	function jQueryMobileHeader($headercontent,$divotherstr){
+	function jQueryMobileHeader($headercontent,$headerdivotherstr){
 		$headerStr="";
-		$headerStr.= "<div data-role=\"header\"".$divotherstr.">\n";
-		$headerStr.= $content;//"<h1>".$nm."</h1>\n";
+		$headerStr.= "<div data-role=\"header\"".$headerdivotherstr.">\n";
+		$headerStr.= $headercontent;//"<h1>".$nm."</h1>\n";
 		$headerStr.= "</div>\n";
-		echo $headerStr;
+		return  $headerStr;
 	}
 	
-	function jQueryMobileFooter($footcontent,$divotherstr){
+	function jQueryMobileFooter($footcontent,$footerdivotherstr){
 		$footerStr="";
-		$footerStr.= "<div data-role=\"footer\"".$divotherstr.">\n";
+		$footerStr.= "<div data-role=\"footer\"".$footerdivotherstr.">\n";
 		$footerStr.= $footcontent;//"<h4>bnb</h4>\n";
 		$footerStr.= "</div>\n";
-		echo $footerStr;
+		return  $footerStr;
 	}
 	
-	function jQueryMobileContent($content,$divotherstr){
+	function jQueryMobileContent($content,$contentdivotherstr){
 		$contentStr="";
-		$contentStr.= "<div data-role=\"content\"".$divotherstr.">\n";
-		$contentStr.=$content;
-		// $pageStr.= "<form name=\"LoginForm\" id=\"LoginForm\" method=\"post\" action=\"\">\n";
-// 	
-		// $pageStr.= jQueryM_Text("BnbID","BnbID","民宿編號","");
-		// $pageStr.= jQueryM_Text("LoginID","LoginID","使用者名稱","");
-		// $pageStr.= jQueryM_PWText("LoginPW","LoginPW","使用者密碼","");
-		// $pageStr.= jQueryM_Button("btnSumit","btnSumit","button","送出");		
-// 					
-		// $pageStr.= "</form>\n";
-				
-		$pageStr.= "</div>\n";
+		$contentStr.= "<div data-role=\"content\"".$contentdivotherstr.">\n";
+		$contentStr.=$content;		
+		$contentStr.= "</div>\n";
+		return  $contentStr;
 	}
 	
 	
