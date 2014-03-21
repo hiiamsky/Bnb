@@ -39,7 +39,7 @@
 				$returnAjaxVal="TRUE";
 			}
 		}
-
+		$dbh=NULL;
 	}catch(PDOException $str){
 		error_log($str->getMessage());
 		die();		
