@@ -4,6 +4,9 @@
 	$bnbID="";
 	$loginID="";
 	$loginPW="";
+	$returnAjaxVal="FALSE";
+	$tblBnbUserInfo="BnbUserInfo";
+	$tblBnBInfo="BnBInfo";
 	if(isset($_REQUEST["BnbID"])){
 		$bnbID=trim($_REQUEST["BnbID"]);
 	}
@@ -17,14 +20,29 @@
 		$dbh=new PDO("mysql:host=localhost;port=3306;dbname=bnbdatabase","bnbadmin","sky_Bnb047");
 		$dbh->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 		$dbh->exec("SET CHARACTER SET utf8");
-		
-		$_SESSION['BnbID']="";
-		$_SESSION['LoginID']="";
-		$_SESSION['BnbDBNm']="";
+		$sqlStr="select ".
+				"`A`.*,`B`.`BnbDBNm` ".
+				"from `".$tblBnbUserInfo."` `A` ".
+				"left join `".$tblBnBInfo."` ".
+				"`B` on `A`.`BnbID`=`B`.`BnbID` ".
+				"where `A`.`BnbID`=?";
+		$sth=$dbh->prepare($sqlStr);
+		$sth->bindParam(1,$bnbID,PDO::PARAM_STR,strlen($bnbID));
+		$sth->execute();
+		$row=$sth->fetch();
+		if(!empty($row)){
+			if($row["UserID"]==$loginID && $row["UserPW"]==$loginPW){
+				$_SESSION['BnbID']=$bnbID;
+				$_SESSION['LoginID']=$loginID;
+				$_SESSION['BnbDBNm']=$row["BnbDBNm"];
+				$_SESSION['UserPower']=$row["Power"];
+				$returnAjaxVal="TRUE";
+			}
+		}
+
 	}catch(PDOException $str){
 		error_log($str->getMessage());
-		die();
-		echo "FALSE";
+		die();		
 	}
-
+	echo $returnAjaxVal;
 ?>
