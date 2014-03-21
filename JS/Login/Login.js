@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	
 	$(document).on("click","#btnSumit",function(evt){
 		var loginData=$("#LoginForm").serialize();		
 		$.ajax({
