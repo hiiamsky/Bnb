@@ -26,6 +26,7 @@
 				"left join `".$tblBnBInfo."` ".
 				"`B` on `A`.`BnbID`=`B`.`BnbID` ".
 				"where `A`.`BnbID`=?";
+		
 		$sth=$dbh->prepare($sqlStr);
 		$sth->bindParam(1,$bnbID,PDO::PARAM_STR,strlen($bnbID));
 		$sth->execute();
@@ -42,7 +43,7 @@
 		$dbh=NULL;
 	}catch(PDOException $str){
 		error_log($str->getMessage());
-		die();		
+		die($str->getMessage());		
 	}
 	echo $returnAjaxVal;
 ?>

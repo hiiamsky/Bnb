@@ -1,4 +1,11 @@
+
 $(document).ready(function(){
+      $.ajaxPrefilter( function(options, originalOptions, jqXHR) {
+            if ( applicationCache && applicationCache.status != applicationCache.UNCACHED && applicationCache.status != applicationCache.OBSOLETE ) {
+                  // the important bit
+                  options.isLocal = true;
+            }
+      });
 	$(document).on("click","#btnSumit",function(evt){
 		var loginData=$("#LoginForm").serialize();		
 		$.ajax({
@@ -25,7 +32,8 @@ $(document).ready(function(){
   			success:function(msg){
   				msg=$.trim(msg);
   				if(msg=="TRUE"){
-  					$.mobile.changePage('../BnbMenu.php');
+  					// $.mobile.changePage('../BnbMenu.php');
+  					document.location.href="../BnbMenu.php";
   				}else{
   					alert("登入失敗,請檢查民宿編號,使用者名稱,使用者密碼是否有誤!!!");
   				}
