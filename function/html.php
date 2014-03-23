@@ -79,7 +79,7 @@
 		
 		public function jQueryMobileContent($content,$contentdivotherstr){
 			$contentStr="";
-			$contentStr.= "<div data-role=\"content\"".$contentdivotherstr.">\n";
+			$contentStr.= "<div role=\"main\" class=\"ui-content\"".$contentdivotherstr.">\n";
 			$contentStr.=$content;		
 			$contentStr.= "</div>\n";
 			return  $contentStr;
