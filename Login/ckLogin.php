@@ -1,6 +1,6 @@
 <?php
 	session_start ();
-	
+	include_once '../function/DefSet.php';
 	$bnbID="";
 	$loginID="";
 	$loginPW="";
@@ -17,9 +17,10 @@
 		$loginPW=trim($_REQUEST["LoginPW"]);
 	}	
 	try{
-		$dbh=new PDO("mysql:host=localhost;port=3306;dbname=bnbdatabase","bnbadmin","sky_Bnb047");
+		$DSN=DSN."bnbdatabase";
+		$dbh=new PDO($DSN,DB_USERNM,DB_PW);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-		$dbh->exec("SET CHARACTER SET utf8");
+		$dbh->exec(DB_UTF8);
 		$sqlStr="select ".
 				"`A`.*,`B`.`BnbDBNm` ".
 				"from `".$tblBnbUserInfo."` `A` ".

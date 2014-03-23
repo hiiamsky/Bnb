@@ -27,8 +27,8 @@ $(document).ready(function(){
   			success:function(msg){
   				msg=$.trim(msg);
   				if(msg=="TRUE"){
-  					$.mobile.changePage('../BnbMenu.php');
-  					// document.location.href="../BnbMenu.php";
+  					//$.mobile.changePage('../BnbMenu.php');
+  					document.location.href="../BnbMenu.php";
   				}else{
   					alert("登入失敗,請檢查民宿編號,使用者名稱,使用者密碼是否有誤!!!");
   				}
