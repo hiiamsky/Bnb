@@ -1,23 +1,36 @@
 <?php
 	session_start ();
-	include_once 'function/DefSet.php';
 	include_once 'Login/SessionCheck.php';
-	include_once 'function/html.php';
+	include_once 'function/DefSet.php';
 	include_once 'function/sql.php';
-	$titleStr="選單";
-	$CSSStr="";
-	$JSStr="";
-	$tblRoomInfo="RoomInfo";
-	$bnbID=$_SESSION['BnbID'];
+	include_once 'function/html.php';	
 	
 	$html=new html;
 	
-	// $sql=new sql($_SESSION['BnbDBNm']);
+	$titleStr="選單";
+	$CSSStr="";
+	$JSStr="<script src=\"JS/Menu/Menu.js\"></script>\n";;
 	
-	$sqlStr="select * from `".$tblRoomInfo."` where `BnbID`=? order by `RoomID`";
-	echo $sqlStr."<br>";
+	
+	$headercontent="<h1>".$titleStr."</h1>\n";
+	$headerdivotherstr=" date-theme=\"".$data_theme."\"";
+	$header=$html->jQueryMobileHeader($headercontent, $headerdivotherstr);
+	
+	$jMcontent="";
+	$jMcontent.= $html->jQueryM_Button("btnBnbInfo","btnBnbInfo","button","民宿資訊"," data-theme=\"".$data_theme."\"");
+	$jMcontent.= $html->jQueryM_Button("btnBooking","btnBooking","button","訂房資訊"," data-theme=\"".$data_theme."\"");
+	$jMcontent.= $html->jQueryM_Button("btnLogout","btnLogout","button","登出"," data-theme=\"".$data_theme."\"");
+	$content=$html->jQueryMobileContent($jMcontent, "");
+	
+	$footcontent="<h4>bnb</h4>\n";	
+	$footer=$html->jQueryMobileFooter($footcontent, "");
+	
+	
 	echo $html->htmlHead($titleStr, $CSSStr, $JSStr);
-
+	
+	echo $html->jQueryMobilePage($pageID, $header, $content, $footer, "");
+	
 	echo $html->htmlEnd();
 	
+	exit();
 ?>
