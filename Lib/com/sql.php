@@ -10,13 +10,13 @@ class sql{
 		private $DSN="";
 		public function __construct($db){	
 			try{
-				$this->DSN=\lib\DSN.$db;
-				$this->setDebugMsgStr("SQLDSN",$this->DSN.\lib\DB_USERNM.\lib\DB_PW.\lib\DB_UTF8);
+				$this->DSN=\DSN.$db;
+				
 				
 				// parent::__construct($this->DSN,DB_USERNM,DB_PW);
-				$this->dbh=new PDO($this->DSN,\lib\DB_USERNM,\lib\DB_PW);
+				$this->dbh=new PDO($this->DSN,\DB_USERNM,\DB_PW);
 				$this->dbh->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-				$this->dbh->exec(\lib\DB_UTF8);
+				$this->dbh->exec(\DB_UTF8);
 				echo "SQLTEST";
 			}catch(PDOException $str){
 				$this->setDebugMsgStr("__construct PDOException",$str->getMessage());

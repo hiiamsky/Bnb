@@ -9,7 +9,7 @@
 		private $tblRoomInfo="RoomInfo";
 		private $tblRoomBookingInfo="RoomBookingInfo";
 		private $bookingDate="";
-		private $roomStatus=0;//lib\BOOKING_STATUS_WAITREMIT;
+		private $roomStatus=\lib\BOOKING_STATUS_WAITREMIT;
 		private $page=0;
 		private $pageCount=5;
 		private $conditionStr="";
