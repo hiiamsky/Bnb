@@ -1,9 +1,8 @@
 <?php
 	session_start ();
 	include_once 'Login/SessionCheck.php';
-	include_once 'function/DefSet.php';
-	include_once 'function/sql.php';
-	include_once 'function/html.php';	
+	include_once 'lib/DefSet.php';
+	include_once 'lib/com/html.php';	
 	
 	$html=new html;
 	

@@ -1,4 +1,5 @@
 <?php
+	namespace lib\com;
 	class html{
 		public function __construct(){
 

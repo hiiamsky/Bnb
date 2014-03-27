@@ -1,39 +1,61 @@
 <?php
 	session_start ();
-	include_once '../Login/session_ck_sub.php';
-	include_once '../function/DefSet.php';
-	include_once '../function/sql.php';
-	include_once '../function/html.php';	
+	include_once '../Login/SessionCheck_Sub.php';
+	include_once '../Lib/DefSet.php';
+	include_once '../Lib/sql.php';
+	include_once '../Lib/html.php';
+		
 
 	$tblRoomInfo="RoomInfo";
 	$tblRoomBookingInfo="RoomBookingInfo";
 	$debugStr="";
+	
 	$bnbID=$_SESSION['BnbID'];
 	$bnbDBNm=$_SESSION['BnbDBNm'];
+	
 	$debugStr.="bnbID:".$bnbID."\n";
 	$debugStr.="bnbDBNm:".$bnbDBNm."\n";
 	
 	$html=new html;		
 	$sql=new sql($bnbDBNm);
-	$debugStr.="sqlgetDebugMsgStr:".$sql->getDebugMsgStr()."\n";
 	
-	$sqlStr="select B.* from `".$tblRoomInfo."` `A` ".
-			"left join `".$tblRoomBookingInfo."` `B` ".
-			"on `A`.`RoomID`=`B`.`RoomID` and `B`.`BnbID`='".$bnbID."' ".
-			"where `A`.`BnbID`=:BnbID ".
-			"order by `A`.`RoomID`,`B`.`BookingDate`";
-	$debugStr.="sqlStr:".$sqlStr."\n";
+	
+	$bookingDate=$_REQUEST["bookingDate"]; //預訂日期
+	$roomStatus=$_REQUEST["roomStatus"]; //訂房狀態
+	
+	$conditionStr="`A`.`BnbID`=:BnbID"; //sql 條件式
+	if($roomStatus>0){
+		$conditionStr.=(strlen($conditionStr)>0?"":" and ");
+		$conditionStr.="`A`.`RoomStatus`=".$roomStatus;		
+	}
+	if(strlen(trim($bookingDate))>0){
+		$conditionStr.=(strlen($conditionStr)>0?"":" and ");
+		$conditionStr.="DATE_FORMAT(`A`.`BookingDate`,'%Y-%m-%d')=:bookingDate";
+	}
+	
+		
+	$debugStr.="sqlgetDebugMsgStr:".$sql->getDebugMsgStr()."<br>";
+	
+	$sqlStr="select ".
+			"`A`.`BookingDate`,count(`A`.`BookingDate`) as `BookingDateCount` ".
+			"from `".$tblRoomBookingInfo."` `A`".
+			(strlen(trim($conditionStr))>0?" ":" where ".$conditionStr).			
+			"group by `A`.`BookingDate`";
+			
+	$debugStr.="sqlStr:".$sqlStr."<br>";
+	
 	$sql->query($sqlStr);
 	$sql->bind(':BnbID', $bnbID);
+	if(strlen(trim($bookingDate))>0){
+		$sql->bind(':bookingDate', $bookingDate);
+	}
 	$row=$sql->resultset();
-	// $sql->query($sqlStr);
-	// $sql->bind(':BnbID', $bnbID);
-	// $row=$sql->resultset();
-	// $debugStr.="rowCount:".$sql->rowCount()."\n";
+	$debugStr.="rowCount:".$sql->rowCount()."<br>";
 
-	// while($row){
-		// echo $row["CusNm"].$row["CusTel"].$row["BookingDate"];
-	// }
+	foreach ($row as $key => $colvalue){
+		echo $colvalue['BookingDate'].$colvalue['BookingDateCount']."<br>";
+	}
+	
 	$sql->Close();
 
 ?>

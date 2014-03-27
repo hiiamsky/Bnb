@@ -1,5 +1,5 @@
 <?php
-
+namespace lib\com;
 class sql{
 		private $databaseName="";
 		private $dbh;
@@ -77,7 +77,7 @@ class sql{
 		}
 		
 		private function setDebugMsgStr($debugnm,$debugstr){
-			$this->debugMsgStr.=$debugnm.":".$debugstr."\n";
+			$this->debugMsgStr.=$debugnm.":".$debugstr."<br>";
 		} 
 		public function getDebugMsgStr(){
 			return $this->debugMsgStr;

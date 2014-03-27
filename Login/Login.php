@@ -1,5 +1,5 @@
 <?php
-	include '../function/html.php';
+	include '../Lib/html.php';
 	$html=new html();
 	
 	$titleStr="登入";
