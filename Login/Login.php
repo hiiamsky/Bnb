@@ -1,6 +1,6 @@
 <?php
-	include '../Lib/html.php';
-	$html=new html();
+	include '../Lib/com/html.php';
+	$html=new \lib\com\html ;
 	
 	$titleStr="登入";
 	$JSLinkStr="<script src=\"../JS/Login/Login.js\"></script>\n";

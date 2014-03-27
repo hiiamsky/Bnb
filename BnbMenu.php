@@ -1,10 +1,10 @@
 <?php
 	session_start ();
 	include_once 'Login/SessionCheck.php';
-	include_once 'lib/DefSet.php';
-	include_once 'lib/com/html.php';	
+	// include_once 'Lib/com/DefSet.php';
+	include_once 'Lib/com/html.php';	
 	
-	$html=new html;
+	$html=new \lib\com\html;
 	
 	$titleStr="選單";
 	$CSSStr="";

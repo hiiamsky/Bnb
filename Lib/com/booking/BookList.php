@@ -1,7 +1,7 @@
 <?php
 	namespace lib\com\booking;	
-	include_once '../sql.php';
-	include_once '../html.php';
+	// include '../../DefSet.php';
+	// include '../sql.php';
 	class BookingList{
 		
 		private $sql;
@@ -9,25 +9,35 @@
 		private $tblRoomInfo="RoomInfo";
 		private $tblRoomBookingInfo="RoomBookingInfo";
 		private $bookingDate="";
-		private $roomStatus=BOOKING_STATUS_WAITREMIT;
+		private $roomStatus=0;//lib\BOOKING_STATUS_WAITREMIT;
 		private $page=0;
 		private $pageCount=5;
 		private $conditionStr="";
 		private $bnbID="";
 		private $bnbDBNm="";
-		public function __construct($db,$bnbID,$bnbDBNm){			
-			$this->sql=new \lib\com\sql($db);	
-			$this->html=new \lib\com\html();
-			$this->bnbID=$bnbID;
-			$this->bnbDBNm=$bnbDBNm;		
+		private $debugMsgStr="";
+		public function __construct($bnbid,$bnbdbnm){			
+			$this->sql=new \lib\com\sql($bnbdbnm);	
+			
+			// $this->html=new \lib\com\html();
+			// $this->bnbID=$bnbID;
+			// $this->bnbDBNm=$bnbDBNm;		
+			// $this->setDebugMsgStr("BookingList_Class's bnbID",$this->bnbID);
+			// $this->setDebugMsgStr("BookingList_Class's bnbDBNm",$this->bnbDBNm=$bnbDBNm);
+			// $this->setDebugMsgStr("BOOKING_STATUS_WAITREMIT",BOOKING_STATUS_WAITREMIT);
+			echo "BookingList";
 		}
 
 		public function show($bookingdate,$roomstatus,$page,$pagecount){
 			$this->bookingDate=$bookingdate;
+			setDebugMsgStr("bookingDate",$bookingdate);
 			$this->roomStatus=$roomstatus;
-			$this->page=$page;
-			$this->pageCount=$pagecount;
+			setDebugMsgStr("roomStatus",$roomstatus);
+			$this->page=$page;			
+			$this->pageCount=$pagecount;			
 			$this->conditionStr=setConditionStr($bookingdate,$roomstatus);
+			setDebugMsgStr("conditionStr",$conditionStr);
+			$this->sql->Close();
 	
 		}
 		private function setConditionStr($bookingdate,$roomstatus){
@@ -42,5 +52,15 @@
 			}
 			return $cStr;
 		}
+		public function sqlClose(){
+			$this->sql->Close();
+		}
+		private function setDebugMsgStr($debugnm,$debugstr){
+			$this->debugMsgStr.=$debugnm.":".$debugstr."<br>";
+		} 
+		public function getDebugMsgStr(){
+			return $this->debugMsgStr;
+		}
+		
 	}
 ?>
