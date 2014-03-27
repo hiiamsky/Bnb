@@ -1,5 +1,5 @@
 <?php
-	include '../Lib/com/html.php';
+	include '../lib/com/html.php';
 	$html=new \lib\com\html ;
 	
 	$titleStr="登入";

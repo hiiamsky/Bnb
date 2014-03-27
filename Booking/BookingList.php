@@ -2,10 +2,10 @@
 	session_start ();
 	include_once '../Login/SessionCheck_Sub.php';
 	
-	include_once '../Lib/DefSet.php';
-	include_once '../Lib/com/sql.php';
+	include_once '../lib/DefSet.php';
+	include_once '../lib/com/sql.php';
 	
-	include_once '../Lib/com/booking/BookList.php';
+	include_once '../lib/com/booking/BookList.php';
 		
 
 	$tblRoomInfo="RoomInfo";

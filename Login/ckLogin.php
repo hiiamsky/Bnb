@@ -1,6 +1,6 @@
 <?php
 	session_start ();
-	include_once '../Lib/DefSet.php';
+	include_once '../lib/DefSet.php';
 	$bnbID="";
 	$loginID="";
 	$loginPW="";
