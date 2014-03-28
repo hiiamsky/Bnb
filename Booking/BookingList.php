@@ -22,4 +22,5 @@
 	echo $BKL->show($bookingdate, $roomstatus, $page, $pagecount);
 
 	$BKL->sqlClose();
+	exit();
 ?>
