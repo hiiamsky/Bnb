@@ -17,10 +17,10 @@
 		$loginPW=trim($_REQUEST["LoginPW"]);
 	}	
 	try{
-		$DSN=lib\DSN."bnbdatabase";
-		$dbh=new PDO($DSN,\lib\DB_USERNM,\lib\DB_PW);
+		$DSN=\DSN."bnbdatabase";
+		$dbh=new PDO($DSN,\DB_USERNM,\DB_PW);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-		$dbh->exec(\lib\DB_UTF8);
+		$dbh->exec(\DB_UTF8);
 		$sqlStr="select ".
 				"`A`.*,`B`.`BnbDBNm` ".
 				"from `".$tblBnbUserInfo."` `A` ".

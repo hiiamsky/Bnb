@@ -85,7 +85,10 @@
 			$contentStr.= "</div>\n";
 			return  $contentStr;
 		}
-	
+		
+		public function today(){
+			return date("Y-m-d");
+		}
 	}
 
 	
