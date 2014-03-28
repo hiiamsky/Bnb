@@ -4,6 +4,9 @@
 		public function __construct(){
 
   		}
+		/**
+		 * Html 表頭
+		 */
 		public function htmlHead($titleStr,$CSSStr,$JSStr){
 			$htmlHeadStr="";
 			$htmlHeadStr.="<!DOCTYPE html>\n";
@@ -23,13 +26,16 @@
 			$htmlHeadStr.="<body>\n";
 			return  $htmlHeadStr;
 		}
+		/**
+		 * Html 表尾
+		 */
 		public function htmlEnd(){
 			$htmlEndStr="";
 			$htmlEndStr.="</body>\n";
 			$htmlEndStr.="</html>\n";
 			return  $htmlEndStr;
 		}
-		public function jQueryM_Text($Nm,$Id,$ShowNm,$DefVal,$otherstr){
+		public function jQueryMTextforForm($Nm,$Id,$ShowNm,$DefVal,$otherstr){
 			$jMhtmltextStr="";
 			$jMhtmltextStr.="<div data-role=\"fieldcontain\">\n".
 							"<label for=\"".$Nm."\">".$ShowNm."</label>\n".
@@ -37,7 +43,7 @@
 							"</div>\n";
 			return  $jMhtmltextStr;					
 		}
-		public function jQueryM_PWText($Nm,$Id,$ShowNm,$DefVal,$otherstr){
+		public function jQueryMPWTextforForm($Nm,$Id,$ShowNm,$DefVal,$otherstr){
 			$jMhtmlPWtextStr="";
 			$jMhtmlPWtextStr.="<div data-role=\"fieldcontain\">\n".
 							"<label for=\"".$Nm."\">".$ShowNm."</label>\n".
@@ -46,7 +52,7 @@
 			return  $jMhtmlPWtextStr;					
 		}
 		
-		public function jQueryM_Button($Nm,$Id,$Type,$DefVal,$otherstr){
+		public function jQueryMButton($Nm,$Id,$Type,$DefVal,$otherstr){
 			$jMhtmlButtonStr="";
 			$jMhtmlButtonStr.="<div data-role=\"fieldcontain\">\n".						
 							"<button name=\"".$Nm."\" id=\"".$Id."\" type=\"".$Type."\"".$otherstr.">".$DefVal."</button>\n".
@@ -85,9 +91,22 @@
 			$contentStr.= "</div>\n";
 			return  $contentStr;
 		}
-		
+		/**
+		 * 今天日期
+		 */
 		public function today(){
 			return date("Y-m-d");
+		}
+		/**
+		 * 日期加減
+		 */
+		public function addDays($date,$days){
+			$date_elements = explode("-" ,$date);
+			//, $date_elements[1], $date_elements[2], $date_elements[0]
+			$date_years=$date_elements[0];
+			$date_months=$date_elements[1];
+			$date_days=$date_elements[2];
+			return date("Y-m-d",mktime(0,0,0,$date_months,$date_days+($days),$date_years));
 		}
 	}
 
