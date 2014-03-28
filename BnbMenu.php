@@ -16,9 +16,9 @@
 	$header=$html->jQueryMobileHeader($headercontent, $headerdivotherstr);
 	
 	$jMcontent="";
-	$jMcontent.= $html->jQueryM_Button("btnBnbInfo","btnBnbInfo","button","民宿資訊"," data-theme=\"".$data_theme."\"");
-	$jMcontent.= $html->jQueryM_Button("btnBooking","btnBooking","button","訂房資訊"," data-theme=\"".$data_theme."\"");
-	$jMcontent.= $html->jQueryM_Button("btnLogout","btnLogout","button","登出"," data-theme=\"".$data_theme."\"");
+	$jMcontent.= $html->jQueryMButton("btnBnbInfo","btnBnbInfo","button","民宿資訊"," data-theme=\"".$data_theme."\"");
+	$jMcontent.= $html->jQueryMButton("btnBooking","btnBooking","button","訂房資訊"," data-theme=\"".$data_theme."\"");
+	$jMcontent.= $html->jQueryMButton("btnLogout","btnLogout","button","登出"," data-theme=\"".$data_theme."\"");
 	$content=$html->jQueryMobileContent($jMcontent, "");
 	
 	$footcontent="<h4>bnb</h4>\n";	
