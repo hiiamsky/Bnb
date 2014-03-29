@@ -1,7 +1,7 @@
 <?php
 	namespace lib\com\booking;	
-
-	class BookingList{
+	include '../menu/bnbmenu.php';
+	class BookingList extends \lib\com\menu\BnbMenu{
 		
 		private $sql;
 		private $html;
@@ -22,12 +22,12 @@
 		
 		
 		public function __construct($bnbid,$bnbdbnm){
-			
+			parent::__construct();
 			$this->sql=new \lib\com\sql($bnbdbnm);			
 			$this->html=new \lib\com\html();
 			$this->bnbID=$bnbid;
 			$this->bnbDBNm=$bnbDBNm;		
-
+			
 		}
 		/**
 		 * Booking/BookingList.php 顯示畫面
