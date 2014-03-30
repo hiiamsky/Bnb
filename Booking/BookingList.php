@@ -5,6 +5,7 @@
 	include_once '../lib/DefSet.php';
 	include_once '../lib/com/sql.php';
 	include_once '../lib/com/html.php';
+	include_once '../lib/com/menu/bnbmenu.php';
 	include_once '../lib/com/booking/BookingList.php';
 
 

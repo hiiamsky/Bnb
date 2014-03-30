@@ -1,5 +1,6 @@
 <?php
 	include '../lib/com/html.php';
+	
 	$html=new \lib\com\html ;
 	
 	$titleStr="登入";
@@ -7,7 +8,7 @@
 	$CSSStr="";
 	$data_theme="b";
 	$pageID="LoginPage";
-	
+
 	$headercontent="<h1>登入</h1>\n";
 	$headerdivotherstr=" date-theme=\"".$data_theme."\"";
 	$header=$html->jQueryMobileHeader($headercontent, $headerdivotherstr);
@@ -19,7 +20,7 @@
 	$jMcontent.= $html->jQueryMTextforForm("LoginID","LoginID","使用者名稱","","");
 	$jMcontent.= $html->jQueryMPWTextforForm("LoginPW","LoginPW","使用者密碼","","");
 	//$jMcontent.="<a id=\"btnSumit\" data-ajax=\"false\" href=\"#\" data-role=\"button\" data-theme=\"".$data_theme."\">登入</a>";
-	$jMcontent.= $html->jQueryMButtonforForm("btnSumit","btnSumit","button","登入"," data-theme=\"".$data_theme."\"");
+	$jMcontent.= $html->jQueryMButton("btnSumit","btnSumit","button","登入"," data-theme=\"".$data_theme."\"");
 	$jMcontent.="</form>\n";
 	$content=$html->jQueryMobileContent($jMcontent, "");
 	
@@ -29,6 +30,6 @@
 	echo $html->htmlHead($titleStr, $CSSStr, $JSLinkStr);	
 	echo $html->jQueryMobilePage($pageID, $header, $content, $footer, "");
 	echo $html->htmlEnd();
-	
+	exit();
 ?>
 

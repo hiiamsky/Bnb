@@ -6,7 +6,7 @@
 	include_once 'lib/com/menu/bnbmenu.php';
 	$BM=new \lib\com\menu\BnbMenu();
 	echo $BM->show();
-	exit();
+	//exit();
 	// $html=new \lib\com\html;
 // 	
 	// $titleStr="選單";

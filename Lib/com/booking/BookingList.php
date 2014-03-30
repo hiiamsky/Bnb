@@ -1,6 +1,6 @@
 <?php
 	namespace lib\com\booking;	
-	include '../menu/bnbmenu.php';
+	
 	class BookingList extends \lib\com\menu\BnbMenu{
 		
 		private $sql;
@@ -10,8 +10,11 @@
 		private $tblRoomBookingInfo="RoomBookingInfo";
 		private $bookingDate="";
 		private $roomStatus=0;
-		private $page=0;
-		private $pageCount=5;
+		
+		private $searchChkinDays=7;//入住日期已七天為一個週期
+		
+		private $page=0;		
+		private $pageCount=7;
 		private $conditionStr="";
 		private $bnbID="";
 		private $bnbDBNm="";
@@ -21,8 +24,11 @@
 		private $JSStr="";
 		
 		
+		
+		
 		public function __construct($bnbid,$bnbdbnm){
 			parent::__construct();
+			$this->pageCount=$this->searchChkinDays;
 			$this->sql=new \lib\com\sql($bnbdbnm);			
 			$this->html=new \lib\com\html();
 			$this->bnbID=$bnbid;
@@ -54,7 +60,9 @@
 			
 			//jQuery Mobile 表頭
 			$headercontent="<h1>訂房資訊</h1>\n";
-			$headerdivotherstr=" date-theme=\"".$data_theme."\"";
+			$headercontent.="<a href=\"#nav-panel\" data-icon=\"bars\" data-iconpos=\"notext\">Menu</a>\n";
+			$headercontent.="<a href=\"#\" class=\"ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline\">Plus</a>\n";
+			$headerdivotherstr=" date-theme=\"".$data_theme."\" data-position=\"fixed\"";
 			$header=$this->html->jQueryMobileHeader($headercontent, $headerdivotherstr);
 			
 			//jQuery Mobile內容
@@ -78,10 +86,16 @@
 			}
 			$content=$this->html->jQueryMobileContent($jMcontent, "");
 			
+			//panel
+			$content.=parent::menuPanel("d");
+			
 			//jQuery Mobile 表尾
 			$footcontent="<h4>bnb</h4>\n";
 			$footer=$this->html->jQueryMobileFooter($footcontent, "");
 			
+			//echo parent::btnBookingJS("../");
+			$menuJSContent="$(document).ready(function(){\n".parent::btnBookingJS("../").parent::btnLogoutJS("../")."});\n";
+			$this->JSStr=parent::menuJS($menuJSContent);
 			
 			$showReturnStr.=$this->html->htmlHead($this->titleStr,$this->CSSStr,$this->JSStr);
 			$showReturnStr.=$this->html->jQueryMobilePage($pageID, $header, $content, $footer, "");
@@ -94,13 +108,15 @@
 		 * sql 條件式
 		 */
 		private function setConditionStr($bookingdate,$roomstatus){
+			$today=$this->html->today();
+			$sevenDays=$this->html->addDays($today,$this->searchChkinDays);
 			$cStr="`A`.`BnbID`='".$this->bnbID."'"; //sql 條件式
 			$BookingDateStr="DATE_FORMAT(`A`.`BookingDate`,'%Y-%m-%d')";
 			//當沒有任何的訂房日期,用今天為起始條件
 			if(strlen(trim($bookingdate))>0){				
 				$BookingDateStr.="='".$bookingdate."'";
 			}else{ 
-				$BookingDateStr.=">='".$this->html->today()."'";
+				$BookingDateStr.=">='".$this->html->today()."' and ".$BookingDateStr."<='".$sevenDays."'";
 			}
 			$cStr.=(strlen($cStr)>0?" and ":"").$BookingDateStr;
 			
@@ -122,6 +138,7 @@
 					(strlen(trim($this->conditionStr))==0?"":"where ".$this->conditionStr." ").			
 					"group by `A`.`BookingDate`,`A`.`RoomStatus` ".
 					"order by `A`.`BookingDate`,`A`.`RoomStatus`";
+			//echo $sqlReturnStr;
 			return $sqlReturnStr;
 		}
 		
