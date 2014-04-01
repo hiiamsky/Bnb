@@ -10,4 +10,9 @@
 	 define("BOOKING_STATUS_CHECKIN",1002);		//已入住
 	 define("BOOKING_STATUS_CHECKOUT",1998);	//已退房
 	 define("BOOKING_STATUS_CANCEL",1999);		//取消
+	 
+	 define("TBLROOMINFO","RoomInfo");
+	 define("TBLSTATUS","status");
+	 define("TBLROOMBOOKINGINFO","RoomBookingInfo");
+
 ?>

@@ -7,7 +7,7 @@
 	include_once '../lib/com/html.php';
 	include_once '../lib/com/menu/bnbmenu.php';
 	include_once '../lib/com/booking/bookinglistbase.php';
-	include_once '../lib/com/booking/BookingList.php';
+	include_once '../lib/com/booking/BookingRoomList.php';
 
 
 	
@@ -19,10 +19,8 @@
 	$bookingDate=$_REQUEST["bookingDate"]; //預訂日期
 	$roomStatus=$_REQUEST["roomStatus"]; //訂房狀態
 	
-	$BKL=new \lib\com\booking\BookingList($bnbID,$bnbDBNm,"BookingListPage","訂房資訊");
+	echo $bookingDate.$roomStatus;
+	$BRL=new \lib\com\booking\BookingRoomList($bnbID,$bnbDBNm,"BookingRoomListPage",$bookingDate."訂房資訊");
 	
-	echo $BKL->show($bookingDate, $roomStatus, $page, $pagecount);
-
-	
-	exit();
+	echo $BRL->show($bookingDate,$roomStatus, $page, $pagecount);
 ?>

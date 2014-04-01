@@ -10,7 +10,9 @@
 		private $btnLogoutID="btnLogout";
 		private $btnBookingID="btnBooking";
 		private $btnbtnBnbInfoID="btnBnbInfo";
-		public function __construct(){			
+		private $navMenuPanelID="nav-panel";
+		public function __construct(){
+				
 			$this->html=new \lib\com\html;
 		}
 		public function show(){
@@ -23,11 +25,8 @@
 			
 			
 			$jMcontent=$this->menuBody($this->data_theme);
-			// $jMcontent.= $this->html->jQueryMButton("btnBnbInfo","btnBnbInfo","button","民宿資訊"," data-theme=\"".$data_theme."\"");
-			// $jMcontent.= $this->html->jQueryMButton("btnBooking","btnBooking","button","訂房資訊"," data-theme=\"".$data_theme."\"");
-			// $jMcontent.= $this->html->jQueryMButton("btnLogout","btnLogout","button","登出"," data-theme=\"".$data_theme."\"");	
-			$content=$this->html->jQueryMobileContent($jMcontent, "");
-			
+
+			$content=$this->html->jQueryMobileContent($jMcontent, "");		
 			
 			
 			$footcontent="<h4>bnb</h4>\n";	
@@ -46,14 +45,14 @@
 			
 			return $returnShowStr;
 		}
-		protected function menuJS($content){
+		private function menuJS($content){
 			$returnMenuJSStr="";
 			$returnMenuJSStr="<script type=\"text/javascript\">\n";
 			$returnMenuJSStr.=$content;
 			$returnMenuJSStr.="</script>\n";
 			return $returnMenuJSStr;
 		}
-		protected function btnBookingJS($pathstr){
+		public function btnBookingJS($pathstr){
 			$returnbtnBookingJSStr="";
 			$returnbtnBookingJSStr.="";
 			$returnbtnBookingJSStr.="$(document).on(\"click\",\"#".$this->btnBookingID."\",function(evt){\n".	
@@ -62,7 +61,7 @@
 			return $returnbtnBookingJSStr;
 		}
 		
-		protected function btnLogoutJS($pathstr){
+		public function btnLogoutJS($pathstr){
 			$returnbtnLogoutJSStr="";
 			$returnbtnLogoutJSStr.="";
 			$returnbtnLogoutJSStr.="$(document).on(\"click\",\"#".$this->btnLogoutID."\",function(evt){\n".	
@@ -70,7 +69,8 @@
 							  "});\n";
 			return $returnbtnLogoutJSStr;
 		}		
-		protected function menuBody($datatheme){
+		
+		public function menuBody($datatheme){
 			$returnMenuBodyStr="";
 			
 			$returnMenuBodyStr.= $this->html->jQueryMButton($this->btnBnbInfoID,$this->btnBnbInfoID,"button","民宿資訊"," data-theme=\"".$datatheme."\"");
@@ -80,13 +80,18 @@
 			return $returnMenuBodyStr;
 		}
 		
-		protected function menuPanel($datatheme){
+		public function btnNavMenuPanel(){
+			return "<a href=\"#".$this->navMenuPanelID."\" data-icon=\"bars\" data-iconpos=\"notext\">Menu</a>\n";
+		}
+		
+		public function navMenuPanel($datatheme){
 			$returnMenuPanelStr="";
-			$returnMenuPanelStr.="<div data-role=\"panel\" data-position-fixed=\"true\" data-display=\"push\" data-theme=\"\" id=\"nav-panel\">\n";
+			$returnMenuPanelStr.="<div data-role=\"panel\" data-position-fixed=\"true\" data-display=\"push\" data-theme=\"".$this->data_theme."\" id=\"".$this->navMenuPanelID."\">\n";
 			$returnMenuPanelStr.=$this->menuBody($datatheme)."\n";
 			$returnMenuPanelStr.="</div>";
 			return $returnMenuPanelStr;
 		}
+		
 		
 		
 	}
