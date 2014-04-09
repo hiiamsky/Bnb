@@ -1,6 +1,6 @@
 <?php
 	namespace lib\com\booking;
-	class BookingRoomList extends \lib\com\booking\BookingListBase {
+	class BookingListForRoom extends \lib\com\booking\BookingListBase {
 		public function __construct($bnbid,$bnbdbnm,$pageid,$title){			
 			parent::__construct($bnbid,$bnbdbnm,$pageid,$title);
 		}
@@ -12,7 +12,7 @@
 			$sqlReturnStr="";
 			$sqlReturnStr="select * from `".\TBLROOMBOOKINGINFO."` `A` ".
 			(strlen(trim(parent::getConditionStr()))==0?" ":"where ".parent::getConditionStr()." ").
-			"order by `A`.`RoomID`";			
+			"order by `A`.`RoomID`,`A`.`RoomStatus`";			
 			return $sqlReturnStr;
 		}		
 	
@@ -26,24 +26,31 @@
 			$BookingDateStr="DATE_FORMAT(`A`.`BookingDate`,'%Y-%m-%d')='".$bookingdate."'";			
 			$cStr.=(strlen($cStr)>0?" and ":"").$BookingDateStr;
 			
-			$cStr.=(strlen($cStr)>0?" and ":"")."`A`.`RoomStatus`=".$roomstatus;	
+			//當沒有任何狀態時,用小於退房的狀態
+			if($roomstatus==0){				
+				$cStr.=(strlen($cStr)>0?" and ":"")."`A`.`RoomStatus`<".\BOOKING_STATUS_CHECKOUT;	
+			}else{
+				$cStr.=(strlen($cStr)>0?" and ":"")."`A`.`RoomStatus`=".$roomstatus;	
+			}		
 			
 			return $cStr;
 		}
 		
 		
 		protected function setJMContent($row){
-			$jMcontent="";			
+			$jMcontent="";	
+			// $jMcontent.="<p>".parent::getRoomStatusNm()."</p>";		
 			if(!empty($row)){
 				//利用 jQuery Mobile ListView功能
 				$jMcontent.="<ul data-role=\"listview\" data-inset=\"true\" data-theme=\"b\" data-divider-theme=\"a\" data-count-theme=\"a\">\n";
 				//echo $jMcontent;
 				foreach ($row as $key => $colvalue){
 					$lastBookingDate=$colvalue['BookingDate'];
-					$jMcontent.="<li data-role=\"list-divider\">".$colvalue['RoomID']."</li>\n";	
+					$jMcontent.="<li data-role=\"list-divider\">".$colvalue['RoomID']."<font color='".parent::getRoomStatusColor($colvalue['RoomStatus'])."'>(".parent::getRoomStatusNm($colvalue['RoomStatus']).")</font>"."</li>\n";	
 					$jMcontent.="<li>";
 					$jMcontent.="<a href=\"#\" data-theme=\"a\" data-ajax=\"false\">";
-					$jMcontent.=$colvalue['CusNm'].$colvalue['CusTel'];
+					$jMcontent.="姓名:".$colvalue['CusNm']."<br>".
+								"電話:".$colvalue['CusTel'];
 					// $jMcontent.=" <span class=\"ui-li-count\">".$colvalue['RoomStatusCount']."</span>";
 					$jMcontent.="</a>\n";
 					$jMcontent.="</li>\n";
@@ -57,16 +64,12 @@
 			//echo $jMcontent;
 			return $jMcontent;			
 		}
+
+
 		
 // 
-		protected  function setJScriptCode(){
+		protected  function setPageJScriptCode(){
 			$returnMenuJSStr="";
-			$returnMenuJSStr.="<script type=\"text/javascript\">\n";
-			$returnMenuJSStr.="$(document).ready(function(){\n";
-			$returnMenuJSStr.=parent::btnBookingJS("../");
-			$returnMenuJSStr.=parent::btnLogoutJS("../");
-			$returnMenuJSStr.="});\n";
-			$returnMenuJSStr.="</script>\n";
 			return $returnMenuJSStr;
 		}
 	}

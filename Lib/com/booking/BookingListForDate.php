@@ -1,7 +1,7 @@
 <?php
 	namespace lib\com\booking;	
 
-	class BookingList extends \lib\com\booking\BookingListBase {
+	class BookingListForDate extends \lib\com\booking\BookingListBase {
 		private $html;
 		public function __construct($bnbid,$bnbdbnm,$pageid,$title){		
 			parent::__construct($bnbid,$bnbdbnm,$pageid,$title);
@@ -14,6 +14,7 @@
 			if(!empty($row)){
 				$lastBookingDate="";
 				$lastRoomStatus=0;
+				
 				//利用 jQuery Mobile ListView功能
 				$jMcontent.="<ul data-role=\"listview\" data-inset=\"true\" data-theme=\"b\" data-divider-theme=\"a\" data-count-theme=\"a\">\n";
 				//echo $jMcontent;
@@ -26,7 +27,7 @@
 					$lastRoomStatus=$colvalue['RoomStatus'];
 					///echo $lastRoomStatus;
 					$jMcontent.="<li>";
-					$jMcontent.="<a href=\"".parent::getBookingRoomListPage()."?bookingDate=".$lastBookingDate."&roomStatus=".$lastRoomStatus."\" data-theme=\"a\" data-ajax=\"false\">";
+					$jMcontent.="<a href=\"".parent::getBookingRoomListPage()."?bookingDate=".$lastBookingDate."\" data-theme=\"a\" data-ajax=\"false\">";
 					$jMcontent.=$colvalue['StatusContent'];
 					$jMcontent.=" <span class=\"ui-li-count\">".$colvalue['RoomStatusCount']."</span>";
 					$jMcontent.="</a>\n";
@@ -43,14 +44,8 @@
 		}
 // 
 // 		
-		protected  function setJScriptCode(){
+		protected  function setPageJScriptCode(){
 			$returnMenuJSStr="";
-			$returnMenuJSStr.="<script type=\"text/javascript\">\n";
-			$returnMenuJSStr.="$(document).ready(function(){\n";
-			$returnMenuJSStr.=parent::btnBookingJS("../");
-			$returnMenuJSStr.=parent::btnLogoutJS("../");
-			$returnMenuJSStr.="});\n";
-			$returnMenuJSStr.="</script>\n";
 			return $returnMenuJSStr;
 		}
 // 
@@ -77,7 +72,7 @@
 			}else{
 				$cStr.=(strlen($cStr)>0?" and ":"")."`A`.`RoomStatus`=".$roomstatus;	
 			}	
-			echo $cStr;
+			// echo $cStr;
 			return $cStr;
 		}
 // 		

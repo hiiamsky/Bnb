@@ -1,6 +1,6 @@
 <?php
 	namespace lib\com\booking;
-	abstract class BookingListBase extends \lib\com\menu\BnbMenu{
+	abstract class BookingListBase extends \lib\com\menu\BnbMenu {
 
 	
 		private $html;
@@ -52,6 +52,54 @@
 			return $this->searchChkinDays;
 		}
 		
+		protected function getRoomStatus(){
+			return $this->roomStatus;
+		}
+		protected function getRoomStatusNm($roomstatus){
+			$returnStatusNm="";
+			switch($roomstatus){
+				case \BOOKING_STATUS_WAITREMIT:
+					$returnStatusNm="待匯款";
+					break;
+				case \BOOKING_STATUS_REMITED:
+					$returnStatusNm="已匯款,待入住";
+					break;
+				case \BOOKING_STATUS_CHECKIN:
+					$returnStatusNm="已入住";
+					break;
+				case \BOOKING_STATUS_CHECKOUT:
+					$returnStatusNm="已退房";
+					break;
+				case \BOOKING_STATUS_CANCEL:
+					$returnStatusNm="取消";
+					break;
+			}
+			return $returnStatusNm;
+		}
+		
+		protected function getRoomStatusColor($roomstatus){
+			$returnStatusColor="";
+			switch($roomstatus){
+				case \BOOKING_STATUS_WAITREMIT:
+					$returnStatusColor="#ff69b4";
+					break;
+				case \BOOKING_STATUS_REMITED:
+					$returnStatusColor="#ffd700";
+					break;
+				case \BOOKING_STATUS_CHECKIN:
+					$returnStatusColor="#006400";
+					break;
+				case \BOOKING_STATUS_CHECKOUT:
+					$returnStatusColor="#afeeee";
+					break;
+				case \BOOKING_STATUS_CANCEL:
+					$returnStatusColor="red";
+					break;
+			}
+			return $returnStatusColor;
+		}
+		
+		
 		/**
 		 * Booking/BookingList.php 顯示畫面
 		 */
@@ -77,10 +125,11 @@
 		
 			//jQuery Mobile 表頭
 			$headercontent="<h1>".$this->titleStr."</h1>\n";
-			//Menu panel button
+			//Menu panel button 需要配合 navMenuPanel()
 			$headercontent.=parent::btnNavMenuPanel();//"<a href=\"#nav-panel\" data-icon=\"bars\" data-iconpos=\"notext\">Menu</a>\n";
+			//$headercontent.="<a href=\"#\" class=\"ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline\">Search</a>\n";
 			//進入訂房畫面的按鈕
-			$headercontent.="<a href=\"#\" class=\"ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline\">Plus</a>\n";
+			$headercontent.="<a href=\"#".parent::getNewBookigdivID()."\"  data-rel=\"popup\" data-position-to=\"window\" data-transition=\"pop\" class=\"ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline\">Plus</a>\n";
 			
 			$headerdivotherstr=" date-theme=\"".$data_theme."\" data-position=\"fixed\"";
 			$header=$this->html->jQueryMobileHeader($headercontent, $headerdivotherstr);
@@ -91,8 +140,17 @@
 			
 			$content=$this->html->jQueryMobileContent($jMcontent, "");
 			
-			//Menu panel div
+			//Menu panel div 需要配合 btnNavMenuPanel()
 			$content.=parent::navMenuPanel("");
+			
+			
+			$content.=parent::addNewBookingDiv($bookingdate);
+
+			
+			
+			
+			
+			
 			
 			//jQuery Mobile 表尾
 			$footcontent="<h4>bnb</h4>\n";
@@ -110,6 +168,20 @@
 			return $showReturnStr;
 	
 		}
+
+		private  function setJScriptCode(){
+			$returnMenuJSStr="";
+			$returnMenuJSStr.="<script type=\"text/javascript\">\n";
+			$returnMenuJSStr.="$(document).ready(function(){\n";
+			$returnMenuJSStr.=parent::btnBookingJS("../");
+			$returnMenuJSStr.=parent::btnLogoutJS("../");
+			$returnMenuJSStr.=parent::btnSubmitBookingJS();
+			$returnMenuJSStr.=$this->setPageJScriptCode();
+			$returnMenuJSStr.="});\n";
+			$returnMenuJSStr.="</script>\n";
+			return $returnMenuJSStr;
+		}
+		
 		protected  function setDebugMsgStr($debugnm,$debugstr){
 			$this->debugMsgStr.=$debugnm.":".$debugstr."<br>";
 		} 
@@ -131,9 +203,10 @@
 		
 		abstract protected  function setJMContent($row);
 // 
-		abstract protected  function setJScriptCode();
+		// abstract protected  function setJScriptCode();
 // 
 
+		abstract protected  function setPageJScriptCode();
 		
 		
 		protected function getConditionStr(){

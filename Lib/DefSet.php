@@ -14,5 +14,11 @@
 	 define("TBLROOMINFO","RoomInfo");
 	 define("TBLSTATUS","status");
 	 define("TBLROOMBOOKINGINFO","RoomBookingInfo");
+	 
+	 define("MODE_SHOW","SHOW");
+	 define("MODE_EDIT","EDIT");
+	 define("MODE_ADD","ADD");
+	 define("MODE_UPDATE","UPDATE");
+	 define("MODE_DELETE","DELETE");
 
 ?>
