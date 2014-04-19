@@ -303,7 +303,7 @@
 			if($mode==\MODE_SHOW){
 				$fieldStr=$fieldSNm.":".$defval."\n";
 			}else{
-				$fieldStr=$this->html->jQueryMTextforForm($fieldNm,$fieldNm,$fieldSNm,$defval,"");
+				$fieldStr=$this->html->jQueryMTextforForm($fieldNm,$fieldNm,$fieldSNm,$defval," readonly");
 			}
 			return $fieldStr;
 		}	

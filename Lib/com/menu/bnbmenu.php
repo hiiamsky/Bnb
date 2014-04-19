@@ -47,7 +47,7 @@
 			$returnShowStr.=$this->html->jQueryMobilePage($this->pageID, $header, $content, $footer, "");	
 			$returnShowStr.=$this->html->htmlEnd();
 			
-			
+					
 			return $returnShowStr;
 		}
 		private function menuJS($content){

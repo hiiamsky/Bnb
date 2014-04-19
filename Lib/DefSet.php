@@ -5,15 +5,16 @@
 	 define("DB_USERNM","bnbadmin");
 	 define("DB_PW","sky_Bnb047");
 	 define("DB_UTF8","SET CHARACTER SET utf8");
-	 define("BOOKING_STATUS_WAITREMIT",1000);	//待匯款
-	 define("BOOKING_STATUS_REMITED",1001);		//已匯款,待入住			  	
-	 define("BOOKING_STATUS_CHECKIN",1002);		//已入住
+	 define("BOOKING_STATUS_WAITBOOKING",1000);	//可訂房
+	 define("BOOKING_STATUS_WAITREMIT",1001);	//已訂房,待匯款
+	 define("BOOKING_STATUS_REMITED",1002);		//已匯款,待入住			  	
+	 define("BOOKING_STATUS_CHECKIN",1003);		//已入住
 	 define("BOOKING_STATUS_CHECKOUT",1998);	//已退房
 	 define("BOOKING_STATUS_CANCEL",1999);		//取消
 	 
 	 define("TBLROOMINFO","RoomInfo");
 	 define("TBLSTATUS","status");
-	 define("TBLROOMBOOKINGINFO","RoomBookingInfo");
+	 define("TBLROOMBOOKINGDATA","RoomBookingData");
 	 
 	 define("MODE_SHOW","SHOW");
 	 define("MODE_EDIT","EDIT");

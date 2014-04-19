@@ -207,16 +207,60 @@
 		public function today(){
 			return date("Y-m-d");
 		}
+		public function monthDays($date){
+			return date("t",strtotime($date));
+		}
+		public function monthFirstDate($date){
+			$date_elements = $this->dateExplodeArray($date);
+			$date_years=$date_elements[0];
+			$date_months=$date_elements[1];
+			$date_days=$date_elements[2];
+			return $date_years."-".$date_months."-01";
+		}
 		/**
 		 * 日期加減
 		 */
 		public function addDays($date,$days){
-			$date_elements = explode("-" ,$date);
+			// $date=$this-transDateFormat($date);
+			$date_elements = $this->dateExplodeArray($date);//explode("-" ,$date);
 			//, $date_elements[1], $date_elements[2], $date_elements[0]
 			$date_years=$date_elements[0];
 			$date_months=$date_elements[1];
 			$date_days=$date_elements[2];
 			return date("Y-m-d",mktime(0,0,0,$date_months,$date_days+($days),$date_years));
+		}
+		public function dateExplodeArray($date){
+			$date=$this->transDateFormat($date);
+			$date_elements = explode("-" ,$date);
+			return $date_elements;
+		}
+		public function transDateFormat($date,$replaceStr="-"){
+			$returnDateStr=$date;
+			$returnDateStr=str_replace(".", $replaceStr, $returnDateStr);
+			$returnDateStr=str_replace("/", $replaceStr, $returnDateStr);			
+			return $returnDateStr;
+		}
+		public function currYearMonth($date){
+			$date_elements = $this->dateExplodeArray($date);
+			$date_years=$date_elements[0];
+			$date_months=$date_elements[1];
+			return $date_years."-".$date_months;
+		}
+		public function dateYear($date){
+			$date_elements = $this->dateExplodeArray($date);
+			$date_years=$date_elements[0];
+			return $date_years;
+			
+		}
+		public function dateMonth($date){
+			$date_elements = $this->dateExplodeArray($date);
+			$date_months=$date_elements[1];			
+			return $date_months;
+		}
+		public function dateDay($date){
+			$date_elements = $this->dateExplodeArray($date);
+			$date_days=$date_elements[2];
+			return $date_days;		
 		}
 		
 		public function StringAdd($str,$num){
