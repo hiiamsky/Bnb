@@ -8,12 +8,13 @@
 		
 		private $goBookingFormID="goBookingForm";
 		
-		private $serchBookingDateDivID="serchBookingDateDiv";
+		private $searchBookingDateDivID="searchBookingDateDiv";
 		
 		
 		public function __construct($bnbid,$bnbdbnm,$pageid,$title){		
 			parent::__construct($bnbid,$bnbdbnm,$pageid,$title);
 			$this->html=new \lib\com\html();
+			echo $this->RoomInfo->arrayFieldNm_roomBookingStatus;
 		}
 
 		protected function setJMContent($row){			
@@ -89,26 +90,26 @@
 				
 				foreach($bookingDateArraycolvalue["RoomInfo"] as $RoomInfokey => $RoomInfocolvalue){
 					
-					$roomstatus=$RoomInfocolvalue["roomStatus"];
+					$roomstatus=$RoomInfocolvalue[\arrayFieldNm_roomBookingStatus];
 					$isWAITBOOKING=($roomstatus==\BOOKING_STATUS_WAITBOOKING);				
 					$isBOOKINGCANCEL=($roomstatus==\BOOKING_STATUS_CANCEL);			
 					
 					// $returnBookingDateLiString.="<li data-role=\"list-divider\">".$RoomInfocolvalue["roomNm"]."</li>\n";
 					$returnBookingDateLiString.="<li>\n";
 					$returnBookingDateLiString.="<a href=\"#\">\n";
-					$returnBookingDateLiString.="<h3>".$RoomInfocolvalue["roomNm"];
+					$returnBookingDateLiString.="<h3>".$RoomInfocolvalue[\arrayFieldNm_roomNm];
 					$returnBookingDateLiString.="<font color=\"".$this->getRoomStatusColor($roomstatus)."\">&nbsp;&nbsp;&nbsp;".$this->getRoomStatusNm($roomstatus)."</font>\n";
 					$returnBookingDateLiString.="</h3>";
 					if(!$isWAITBOOKING && !$isBOOKINGCANCEL){
 						$returnBookingDateLiString.="<div data-role=\"collapsible\" data-collapsed-icon=\"carat-d\" data-expanded-icon=\"carat-u\">\n";
 						$returnBookingDateLiString.="<h4>入住資訊</h4>\n";
-						$returnBookingDateLiString.="<p><strong>入住人:".$RoomInfocolvalue["roomCusnm"]."</strong></p>\n";
-						$returnBookingDateLiString.="<p><strong>聯絡電話:".$RoomInfocolvalue["roomCusTel"]."</strong></p>\n";
-						$returnBookingDateLiString.="<p><strong>備註:".$RoomInfocolvalue["roomMemo"]."</strong></p>\n";
+						$returnBookingDateLiString.="<p><strong>入住人:".$RoomInfocolvalue[\arrayFieldNm_roomBookingCusnm]."</strong></p>\n";
+						$returnBookingDateLiString.="<p><strong>聯絡電話:".$RoomInfocolvalue[\arrayFieldNm_roomBookingCusTel]."</strong></p>\n";
+						$returnBookingDateLiString.="<p><strong>備註:".$RoomInfocolvalue[\arrayFieldNm_roomBookingMemo]."</strong></p>\n";
 						$returnBookingDateLiString.="</div>\n";
 					}
 					$returnBookingDateLiString.="</a>\n";
-					$returnBookingDateLiString.="<a href=\"#\" data-ajax=\"false\" onclick=\"javascript:goBooking('".$roomstatus."','".$bookingDateArraycolvalue["BookingDate"]."','".$RoomInfocolvalue["roomID"]."')\">修改</a>\n";
+					$returnBookingDateLiString.="<a href=\"#\" data-ajax=\"false\" onclick=\"javascript:goBooking('".($isWAITBOOKING?\MODE_ADD:\MODE_EDIT)."','".$roomstatus."','".$bookingDateArraycolvalue["BookingDate"]."','".$RoomInfocolvalue["roomID"]."')\">修改</a>\n";
 
 					$returnBookingDateLiString.="</li>\n";					
 					// $returnBookingDateLiString.="<li><a href=\"index.html\">".$colvalue["roomNm"]."</a></li>\n";
@@ -129,10 +130,10 @@
 			
 			$footcontent="<div data-role=\"navbar\" data-iconpos=\"bottom\">\n";
 			$footcontent.="<ul>\n";
-			$footcontent.="<li><a href=\"#\" data-ajax=\"false\" onclick=\"javascript:serchBookingDate('".$lastserchChkinDaysDate."')\" data-icon=\"arrow-l\">".$lastserchChkinDaysDate."</a></li>\n";
-			$footcontent.="<li><a href=\"#\" data-ajax=\"false\" onclick=\"javascript:serchBookingDate('".$this->html->today()."')\" data-icon=\"star\">今天</a></li>\n";
-			$footcontent.="<li><a href=\"#".$this->serchBookingDateDivID."\"  data-rel=\"popup\" data-position-to=\"window\" data-transition=\"pop\" data-icon=\"calendar\">搜尋</a></li>\n";
-			$footcontent.="<li><a href=\"#\" data-ajax=\"false\" onclick=\"javascript:serchBookingDate('".$nextserchChkinDaysDate."')\" data-icon=\"arrow-r\">".$nextserchChkinDaysDate."</a></li>\n";
+			$footcontent.="<li><a href=\"#\" data-ajax=\"false\" onclick=\"javascript:searchBookingDate('".$lastserchChkinDaysDate."')\" data-icon=\"arrow-l\">".$lastserchChkinDaysDate."</a></li>\n";
+			$footcontent.="<li><a href=\"#\" data-ajax=\"false\" onclick=\"javascript:searchBookingDate('".$this->html->today()."')\" data-icon=\"star\">今天</a></li>\n";
+			$footcontent.="<li><a href=\"#".$this->searchBookingDateDivID."\"  data-rel=\"popup\" data-position-to=\"window\" data-transition=\"pop\" data-icon=\"calendar\">搜尋</a></li>\n";
+			$footcontent.="<li><a href=\"#\" data-ajax=\"false\" onclick=\"javascript:searchBookingDate('".$nextserchChkinDaysDate."')\" data-icon=\"arrow-r\">".$nextserchChkinDaysDate."</a></li>\n";
 			$footcontent.="</ul>\n";
 			$footcontent.="</div><!-- /navbar -->\n";
 			
@@ -140,7 +141,7 @@
 			//訂房日期的form
 			$footcontent.=$this->setBookingDateForm();
 			//搜尋訂房日期的DIV
-			$footcontent.=$this->serchBookingDateDiv();
+			$footcontent.=$this->searchBookingDateDiv();
 			return $footcontent;
 		}
 		protected  function setJScriptCode(){
@@ -153,21 +154,33 @@
 			$returnMenuJSStr.=$this->setPageJScriptCode();
 			$returnMenuJSStr.=$this->btnSerchBookingDateJS();
 			$returnMenuJSStr.="});\n";
-			$returnMenuJSStr.="function serchBookingDate(sbookingdate){\n";
-			$returnMenuJSStr.="$(\"#bookingDate\").val(sbookingdate);\n";
-			$returnMenuJSStr.="$(\"#".$this->BookingDateFormID."\").submit();\n";
-			$returnMenuJSStr.="}\n";
 			
-			$returnMenuJSStr.="function goBooking(bookingstatus,bookingdate,bookingroomid){\n";
-			$returnMenuJSStr.="$(\"#BookingDtatus\").val(bookingstatus);\n";
-			$returnMenuJSStr.="$(\"#BookingDate\").val(bookingdate);\n";
-			$returnMenuJSStr.="$(\"#BookingRoomId\").val(bookingroomid);\n";
-			// $returnMenuJSStr.="$(\"#".$this->BookingDateFormID."\").submit();\n";
-			$returnMenuJSStr.="}\n";
+			$returnMenuJSStr.=$this->searchBookingDateJS();			
+			$returnMenuJSStr.=$this->goBookingJS();
+			
 			$returnMenuJSStr.="</script>\n";
 			return $returnMenuJSStr;
 		}
 		
+		private function searchBookingDateJS(){
+			$returnsearchBookingDateJSStr="";
+			$returnsearchBookingDateJSStr.="function searchBookingDate(sbookingdate){\n";
+			$returnsearchBookingDateJSStr.="	$(\"#bookingDate\").val(sbookingdate);\n";
+			$returnsearchBookingDateJSStr.="	$(\"#".$this->BookingDateFormID."\").submit();\n";
+			$returnsearchBookingDateJSStr.="}\n";
+			return $returnsearchBookingDateJSStr;
+		}
+		private function goBookingJS(){
+			$returnBookingJSStr="";
+			$returnBookingJSStr.="function goBooking(bookingmode,bookingstatus,bookingdate,bookingroomid){\n";
+			$returnBookingJSStr.="	$(\"#BookingDtatus\").val(bookingstatus);\n";
+			$returnBookingJSStr.="	$(\"#BookingDate\").val(bookingdate);\n";
+			$returnBookingJSStr.="	$(\"#BookingRoomId\").val(bookingroomid);\n";
+			$returnBookingJSStr.="	$(\"#BookingMode\").val(bookingmode);\n";
+			$returnBookingJSStr.="	$(\"#".$this->goBookingFormID."\").submit();\n";
+			$returnBookingJSStr.="}\n";
+			return $returnBookingJSStr;
+		}
 		private function btnSerchBookingDateJS(){
 			$returnbtnSubmitBookingJSStr="";
 			$returnbtnSubmitBookingJSStr.="\n";
@@ -177,15 +190,15 @@
 			$returnbtnSubmitBookingJSStr.="			$(\"#serchbookingdate\").focus();\n";	
 			$returnbtnSubmitBookingJSStr.="			return false;\n";	
 			$returnbtnSubmitBookingJSStr.="		}\n";	
-			$returnbtnSubmitBookingJSStr.="		serchBookingDate($(\"#serchbookingdate\").val());\n";
+			$returnbtnSubmitBookingJSStr.="		searchBookingDate($(\"#serchbookingdate\").val());\n";
 			$returnbtnSubmitBookingJSStr.="});\n";
 			return $returnbtnSubmitBookingJSStr;
 		}
 		
 		
-		private function serchBookingDateDiv(){
+		private function searchBookingDateDiv(){
 			$returnNewBookingDivStr="";
-			$returnNewBookingDivStr.="<div data-role=\"popup\" id=\"".$this->serchBookingDateDivID."\" data-theme=\"a\" data-overlay-theme=\"b\" class=\"ui-content\" style=\"max-width:480px; padding-bottom:2em;\">\n";
+			$returnNewBookingDivStr.="<div data-role=\"popup\" id=\"".$this->searchBookingDateDivID."\" data-theme=\"a\" data-overlay-theme=\"b\" class=\"ui-content\" style=\"max-width:480px; padding-bottom:2em;\">\n";
 
 			$returnNewBookingDivStr.="<ul data-role=\"listview\" data-inset=\"true\">\n";
 			$returnNewBookingDivStr.="<li class=\"ui-field-contain\">\n";
@@ -214,6 +227,7 @@
 			$returnFormStr.=$this->html->HiddenText("BookingDate","BookingDate","","");
 			$returnFormStr.=$this->html->HiddenText("BookingDtatus","BookingDtatus","","");
 			$returnFormStr.=$this->html->HiddenText("BookingRoomId","BookingRoomId","","");
+			$returnFormStr.=$this->html->HiddenText("BookingMode","BookingMode","","");
 			$returnFormStr.="</form>\n";	
 			
 						

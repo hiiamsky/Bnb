@@ -1,4 +1,5 @@
 <?php
+    header("Content-Type:text/html; charset=utf-8");
 	include '../lib/com/html.php';
 	
 	$html=new \lib\com\html ;

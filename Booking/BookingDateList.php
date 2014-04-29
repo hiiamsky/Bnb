@@ -1,11 +1,13 @@
 <?php
 	session_start ();
+    header("Content-Type:text/html; charset=utf-8");
 	include_once '../Login/SessionCheck_Sub.php';
 	
 	include_once '../lib/DefSet.php';
 	include_once '../lib/com/sql.php';
 	include_once '../lib/com/html.php';
 	include_once '../lib/com/menu/bnbmenu.php';
+	include_once '../lib/com/booking/roominfo.php';
 	include_once '../lib/com/booking/bookinglistbase.php';
 	include_once '../lib/com/booking/BookingListForDate.php';
 

@@ -32,12 +32,17 @@
 		
 		private $serchBookingDateDivID="serchBookingDateDiv";
 		
+		protected $RoomInfo;
+		
 		public function __construct($bnbid,$bnbdbnm,$pageid,$title){
 				
 			parent::__construct();
 			
 			$this->sql=new \lib\com\sql($bnbdbnm);			
 			$this->html=new \lib\com\html();
+			$this->RoomInfo=new \lib\com\booking\RoomInfo($bnbid,$bnbdbnm);
+			
+			
 			
 			$this->bnbID=$bnbid;
 			$this->bnbDBNm=$bnbDBNm;
@@ -49,7 +54,8 @@
 		}
 		private function setbookingDateArray($bookingdate){
 			unset($this->bookingDateArray);
-			$roomarray=$this->setRoomArray();
+			$roomarray=$this->RoomInfo->getRoomInfoArray("");//$this->setRoomArray();//
+			
 			$dateStr="";
 			for($i=0;$i<$this->searchChkinDays;$i++){
 				$dateStr=$this->html->addDays($bookingdate,$i);
@@ -62,10 +68,10 @@
 		}		
 		protected function setBookingDateRoomInfo($date,$roomid,$status,$roomCusnm,$roomCusTel,$roomMemo){
 			
-			$this->bookingDateArray[$date]["RoomInfo"][$roomid]["roomStatus"]=$status;			
-			$this->bookingDateArray[$date]["RoomInfo"][$roomid]["roomCusnm"]=$roomCusnm;
-			$this->bookingDateArray[$date]["RoomInfo"][$roomid]["roomCusTel"]=$roomCusTel;
-			$this->bookingDateArray[$date]["RoomInfo"][$roomid]["roomMemo"]=$roomMemo;
+			$this->bookingDateArray[$date]["RoomInfo"][$roomid][$this->RoomInfo->arrayFieldNm_roomBookingStatus]=$status;			
+			$this->bookingDateArray[$date]["RoomInfo"][$roomid][$this->RoomInfo->arrayFieldNm_roomBookingCusnm]=$roomCusnm;
+			$this->bookingDateArray[$date]["RoomInfo"][$roomid][$this->RoomInfo->arrayFieldNm_roomBookingCusTel]=$roomCusTel;
+			$this->bookingDateArray[$date]["RoomInfo"][$roomid][$this->RoomInfo->arrayFieldNm_roomBookingMemo]=$roomMemo;
 		    
 		}
 		private function setRoomArray(){
@@ -78,12 +84,12 @@
 			if(!empty($row)){				
 				foreach ($row as $key => $colvalue){		
 					$roomarray[$colvalue['RoomID']]=array(
-												"roomID"=>$colvalue['RoomID'],
-												"roomNm"=>$colvalue['RoomNm'],
-												"roomStatus"=>\BOOKING_STATUS_WAITBOOKING,
-												"roomCusnm"=>"",
-												"roomCusTel"=>"",
-												"roomMemo"=>""
+												$this->RoomInfo->arrayFieldNm_roomID=>$colvalue['RoomID'],
+												$this->RoomInfo->arrayFieldNm_roomNm=>$colvalue['RoomNm'],
+												$this->RoomInfo->arrayFieldNm_roomBookingStatus=>\BOOKING_STATUS_WAITBOOKING,
+												$this->RoomInfo->arrayFieldNm_roomBookingCusnm=>"",
+												$this->RoomInfo->arrayFieldNm_roomBookingCusTel=>"",
+												$this->RoomInfo->arrayFieldNm_roomBookingMemo=>""
 												
 											 );
 						

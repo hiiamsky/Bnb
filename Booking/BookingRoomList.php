@@ -8,8 +8,6 @@
 	include_once '../lib/com/menu/bnbmenu.php';
 	include_once '../lib/com/booking/bookinglistbase.php';
 	include_once '../lib/com/booking/BookingListForRoom.php';
-
-
 	
 	$bnbID=$_SESSION['BnbID'];
 	$bnbDBNm=$_SESSION['BnbDBNm'];
@@ -18,8 +16,7 @@
 	$pagecount=$_REQUEST["pagecount"];
 	$bookingDate=$_REQUEST["bookingDate"]; //預訂日期
 	$roomStatus=$_REQUEST["roomStatus"]; //訂房狀態
-	
-	echo $bookingDate.$roomStatus;
+
 	$BRL=new \lib\com\booking\BookingListForRoom($bnbID,$bnbDBNm,"BookingRoomListPage",$bookingDate."訂房資訊");
 	
 	echo $BRL->show($bookingDate,$roomStatus, $page, $pagecount);

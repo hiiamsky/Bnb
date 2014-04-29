@@ -21,5 +21,17 @@
 	 define("MODE_ADD","ADD");
 	 define("MODE_UPDATE","UPDATE");
 	 define("MODE_DELETE","DELETE");
+     
+     define("arrayFieldNm_roomID","roomID");
+     define("arrayFieldNm_roomNm","roomNm");
+     define("arrayFieldNm_roomPrice","roomPrice");
+     define("arrayFieldNm_roomHolidayPrice","roomHolidayPrice");
+     define("arrayFieldNm_roomNonHolidayPrice","roomNonHolidayPrice");
+     define("arrayFieldNm_roomSPrice","roomSPrice");
+     define("arrayFieldNm_roomBookingStatus","roomBookingStatus");
+     define("arrayFieldNm_roomBookingCusnm","roomBookingCusnm");
+     define("arrayFieldNm_roomBookingCusTel","roomBookingCusTel");
+     define("arrayFieldNm_roomBookingMemo","roomBookingMemo");
+     
 
 ?>
